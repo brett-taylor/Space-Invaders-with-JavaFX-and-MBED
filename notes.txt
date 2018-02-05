@@ -1,0 +1,43 @@
+Spaceship
+ - Shoots missle
+	- Damage, Look, Speed must be able to change during runtime.
+ 
+Defences
+
+3 Rows 5 columns of enemies
+- slightly different colour or size or something
+
+Each time drop a row
+	- Enemies and player move quicker
+
+Template Main Menu
+Template You win / You lose 
+
+Power ups:
+	- Extra hp
+	- Shield
+	- Weapon changes
+
+Score:
+ - +100 Every enemy killed
+
+Level:
+	1- Take 3 hits no walls
+	2- TAke 2 hits with walls
+	3- Boss fight takes 10 hits etc 
+
+Incoprating MBed:
+	- On Main menu mbed screen says "Space InvaderS"
+	- MBed shows health (Health: 2)
+	- Boss levels shows boss health etc
+	- LED health (Green, Yellow, Red) 
+	- Buzzer incorpated with menus kills
+	- Joystick to move
+	- using dials for cheats/fire speed/whatever? 
+	- One of those shield buttons is a toggle for pause
+
+- Control scheme picture or programattically done. 
+
+
+
+
