@@ -1,5 +1,7 @@
 package game.world.impl;
 
+import game.Engine;
+import game.utils.Settings;
 import game.world.World;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -11,8 +13,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 /**
- * The opening scene of the game.
- *
+ * The scene that will display any mbed issue.
  * @author Brett Taylor
  */
 public class MBedIssueWorld extends World {
@@ -20,13 +21,10 @@ public class MBedIssueWorld extends World {
 
     /**
      * Creates the introduction world that handles showing the entry scenes of the game.
-     *
-     * @param screenWidth
-     * @param screenHeight
      */
-    public MBedIssueWorld(double screenWidth, double screenHeight) {
-        super(screenWidth, screenHeight);
-        scene.setFill(new Color(0.8392, 0.4784, 0.4902, 0.7961));
+    public MBedIssueWorld() {
+        super();
+        Engine.getMainStage().getScene().setFill(Settings.COLORS.SCENE_BAD_BACKGROUND);
 
         centeredText = new Text("");
         centeredText.setFill(Color.WHITE);

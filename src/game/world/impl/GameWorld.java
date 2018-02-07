@@ -1,32 +1,28 @@
 package game.world.impl;
 
-import game.entities.mobs.player.Player;
+import game.Engine;
+import game.entities.mobs.Player;
+import game.utils.FPSCounter;
+import game.utils.Settings;
 import game.world.World;
 import javafx.geometry.Point2D;
-import javafx.scene.paint.Color;
 
 /**
  * The game scene.
- *
  * @author Brett Taylor
  */
 public class GameWorld extends World {
-    private Player player;
-
     /**
      * Creates a World
-     *
-     * @param screenWidth
-     * @param screenHeight
      */
-    public GameWorld(double screenWidth, double screenHeight) {
-        super(screenWidth, screenHeight);
-        scene.setFill(new Color(0, 0, 0, 0.86f));
+    public GameWorld() {
+        super();
+        Engine.getMainStage().getScene().setFill(Settings.COLORS.SCENE_GOOD_BACKGROUND);
 
-        player = new Player(
-                new Point2D(screenWidth / 2, screenHeight - 70),
+        addEntity(new Player(
+                new Point2D(screenWidth / 2, screenHeight - 300),
                 new Point2D(30, 30)
-        );
-        addEntity(player);
+        ));
+        addEntity(new FPSCounter());
     }
 }

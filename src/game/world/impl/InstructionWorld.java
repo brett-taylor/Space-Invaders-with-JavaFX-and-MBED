@@ -1,6 +1,7 @@
 package game.world.impl;
 
 import game.Engine;
+import game.utils.Settings;
 import game.world.World;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -12,7 +13,6 @@ import javafx.util.Duration;
 
 /**
  * The opening scene of the game.
- *
  * @author Brett Taylor
  */
 public class InstructionWorld extends World {
@@ -21,13 +21,10 @@ public class InstructionWorld extends World {
 
     /**
      * Creates the introduction world that handles showing the entry scenes of the game.
-     *
-     * @param screenWidth
-     * @param screenHeight
      */
-    public InstructionWorld(double screenWidth, double screenHeight) {
-        super(screenWidth, screenHeight);
-        scene.setFill(new Color(0.8392, 0.4784, 0.4902, 0.7961));
+    public InstructionWorld() {
+        super();
+        Engine.getMainStage().getScene().setFill(Settings.COLORS.SCENE_BAD_BACKGROUND);
 
         centeredText = new Text("This scene will display the mbed picture with what each button does");
         centeredText.setFill(Color.WHITE);
@@ -36,7 +33,7 @@ public class InstructionWorld extends World {
         root.getChildren().add(centeredText);
 
         new Timeline(new KeyFrame(Duration.millis(TIME_TILL_GAME_WORLD),
-                ae -> Engine.setWorld(new GameWorld(screenWidth, screenHeight)))).play();
+                ae -> Engine.setWorld(new GameWorld()))).play();
     }
 
     @Override

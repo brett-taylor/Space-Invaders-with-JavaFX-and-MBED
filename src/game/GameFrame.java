@@ -6,14 +6,16 @@ import javafx.stage.Stage;
 
 /**
  * GameFrame handles creation of the JavaFX frame and handles creating an Engine;
- *
  * @author Brett Taylor
  */
 public class GameFrame extends Application {
     public static void main(String[] args) {
-        for (String s : args)
-            if (s.equalsIgnoreCase("debug"))
-                Engine.IS_DEBUG = true;
+        for (String s : args) {
+            if (s.equalsIgnoreCase("debug")) {
+                Engine.setDebug(true);
+                break;
+            }
+        }
 
         launch(args);
     }

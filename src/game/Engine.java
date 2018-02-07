@@ -1,39 +1,33 @@
 package game;
 
 import game.utils.Input;
+import game.utils.Settings;
 import game.world.World;
-import game.world.impl.IntroductionWorld;
-import game.world.impl.MBedIssueWorld;
-import javafx.embed.swing.SwingNode;
+import game.world.impl.*;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import mbed.mbed.MBed;
-import mbed.mbed.MBedDummy;
-import mbed.mbed.MBedUtils;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowEvent;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
  * Lowest level of the game. Handles input, updating objects and connection to mbed
- *
  * @author Brett Taylor
  */
 public class Engine {
-    public static boolean IS_DEBUG = false;
-
+    private static boolean isDebug = false;
     private static boolean isInitialised = false;
     private static long lastUpdate = 0;
     private static Stage mainStage = null;
     private static World currentWorld = null;
     private static float deltaTime = 0.f;
-    private static MBed mbed = null;
+    private static BorderPane layoutContainer = null;
+    private static Pane gamePane = null;
 
     /**
-     * Handles the start up of the game.Engine
-     *
+     * Handles the start up of the game.Engine*
      * @param stage The stage for the game.GameFrame the game will be using.
      */
     public static void initialise(Stage stage) {
@@ -42,48 +36,33 @@ public class Engine {
 
         isInitialised = true;
         mainStage = stage;
-        mainStage.setTitle("Asteroid Shooter");
+        mainStage.setTitle(Settings.GAME.GAME_NAME);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         mainStage.setWidth((screenSize.width / 100) * 75);
         mainStage.setHeight((screenSize.height / 100) * 75);
         mainStage.centerOnScreen();
 
-        mbed = MBedUtils.getMBed();
-        if (mbed == null || !mbed.isOpen()) {
-            setWorld(new MBedIssueWorld(getMainStage().getWidth(), getMainStage().getHeight()));
+        layoutContainer = new BorderPane();
+        gamePane = new Pane();
+        layoutContainer.setCenter(gamePane);
+        mainStage.setScene(new Scene(layoutContainer));
+
+        Input.setUpGlobalInputBindings();
+
+        // If returned false mbed didnt start up correctly and needs to show MbedIssueWorld
+        if (!MBedEngine.startUp(layoutContainer)) {
+            Engine.setWorld(new MBedIssueWorld());
             mainStage.show();
             return;
         }
 
-        // If we are using a dummy mbed lets incorporate the mbed emulator into our frame.
-        /*if (mbed.getLocation() == "DUMMY") {
-            MBedDummy dummy = (MBedDummy) mbed;
-            mainStage.setWidth(230);
-            mainStage.setHeight(375);
-
-            final SwingNode swingNode = new SwingNode();
-            SwingUtilities.invokeLater(() -> {
-                swingNode.setContent(dummy.generatePane());
-            });
-
-            Pane pane = new Pane();
-            pane.getChildren().add(swingNode); // Adding swing node
-            stage.setScene(new Scene(pane, 100, 50));
-            stage.show();
-
-            dummy.getFrame().setState(Frame.ICONIFIED);
-            mbed.getLCD().print(5, 5, "Helo World.");
-            return;
-        }*/
-
-        setWorld(new IntroductionWorld(getMainStage().getWidth(), getMainStage().getHeight()));
+        setWorld(new GameWorld());
         mainStage.show();
     }
 
     /**
      * Handles updating the game.
-     *
      * @param now The time currently now in nanoseconds.
      */
     public static void update(long now) {
@@ -103,7 +82,6 @@ public class Engine {
 
     /**
      * Returns the main stage of the game frame.
-     *
      * @return the main stage of the game frame.
      */
     public static Stage getMainStage() {
@@ -117,13 +95,13 @@ public class Engine {
         if (currentWorld != null)
             currentWorld.destroy();
 
+        gamePane.getChildren().clear();
+        gamePane.getChildren().add(world.getRoot());
         currentWorld = world;
-        mainStage.setScene(world.getScene());
     }
 
     /**
      * The current world.
-     *
      * @return the current world.
      */
     public static World getCurrentWorld() {
@@ -132,10 +110,43 @@ public class Engine {
 
     /**
      * Returns the last delta time calculated
-     *
      * @return the last delta time calculated
      */
     public static float getDeltaTime() {
         return deltaTime;
+    }
+
+    /**
+     * Returns the play area width of the game. This takes into consideration the mbed emulator.
+     * @return the play area width of the game.
+     */
+    public static double getPlayAreaWidth() {
+        return MBedEngine.shouldAttachEmulator() ?
+                getMainStage().getWidth() - Settings.MBED.MBED_EMULATOR_WIDTH :
+                getMainStage().getWidth();
+    }
+
+    /**
+     * Returns the play area height of the game.
+     * @return the play area height of the game.
+     */
+    public static double getPlayAreaHeight() {
+        return getMainStage().getHeight();
+    }
+
+    /**
+     * Sets whether the game is in debug mode or not.
+     * @param debugStatus true or false for debug mode.
+     */
+    public static void setDebug(boolean debugStatus) {
+        isDebug = debugStatus;
+    }
+
+    /**
+     * Returns whether the game is in debug or not.
+     * @return true if the game is in debug mode.
+     */
+    public static boolean isDebug() {
+        return isDebug;
     }
 }

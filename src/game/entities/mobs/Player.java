@@ -1,4 +1,4 @@
-package game.entities.mobs.player;
+package game.entities.mobs;
 
 import game.Engine;
 import game.entities.mobs.Mob;
@@ -9,14 +9,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 /**
- * Player is ship that the player will take control of.
- *
+ * Player is ship that the player will take control of.*
  * @author Brett Taylor
  */
 public class Player extends Mob {
     /**
      * Creates a entity.
-     *
      * @param position the position the entity will start drawing to on the screen
      * @param size
      */
@@ -37,14 +35,8 @@ public class Player extends Mob {
         super.update(deltaTime);
 
         if (Input.isKeyDown(KeyCode.A))
-            left();
-
-    }
-
-    /**
-     * Moves the player left by their movement amount and delta time.
-     */
-    public void left() {
-        setPosition(getPosition().add(new Point2D(-200 * Engine.getDeltaTime(), 0)));
+            setPosition(getPosition().add(new Point2D(-200 * Engine.getDeltaTime(), 0)));
+        else if (Input.isKeyDown(KeyCode.D))
+            setPosition(getPosition().add(new Point2D(200 * Engine.getDeltaTime(), 0)));
     }
 }

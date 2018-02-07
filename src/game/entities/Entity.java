@@ -1,5 +1,6 @@
 package game.entities;
 
+import game.utils.Settings;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -12,7 +13,6 @@ public abstract class Entity implements IUpdatable, IDrawable {
 
     /**
      * Creates a entity.
-     *
      * @param position the position the entity will start drawing to on the screen
      */
     public Entity(Point2D position, Point2D size) {
@@ -37,17 +37,17 @@ public abstract class Entity implements IUpdatable, IDrawable {
     }
 
     /**
-     * The position of the entity
-     *
-     * @param position the new position of the entity
+     * The position of the entity.
+     * The Y coordinate is offset by the title bar height as it seems that the title bar is not taken into
+     * consideration normally for some reason.
+     * @param pos the new position of the entity
      */
-    public void setPosition(Point2D position) {
-        this.position = position;
+    public void setPosition(Point2D pos) {
+        this.position = pos;
     }
 
     /**
      * Gets the position of the entity.
-     *
      * @return the position of the entity.
      */
     public Point2D getPosition() {
@@ -56,7 +56,6 @@ public abstract class Entity implements IUpdatable, IDrawable {
 
     /**
      * Sets the size of the entity
-     *
      * @param size the new size of the entity
      */
     public void setSize(Point2D size) {
@@ -65,7 +64,6 @@ public abstract class Entity implements IUpdatable, IDrawable {
 
     /**
      * Gets the size of the entity
-     *
      * @return the size of the entity.
      */
     public Point2D getSize() {

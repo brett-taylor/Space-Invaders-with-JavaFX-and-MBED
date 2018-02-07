@@ -1,6 +1,7 @@
 package game.world.impl;
 
 import game.Engine;
+import game.utils.Settings;
 import game.world.World;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -13,32 +14,18 @@ import javafx.util.Duration;
 
 /**
  * The opening scene of the game.
- *
+
  * @author Brett Taylor
  */
 public class IntroductionWorld extends World {
-    private static final float STARTING_TEXT_OPACITY = 0.f;
-    private static final float ENDING_TEXT_OPACITY = 0.8f;
-    private static final int FIRST_TEXT_INTRO = 3000;
-    private static final int FIRST_TEXT_OUTRO = FIRST_TEXT_INTRO + 3000;
-    private static final int SECOND_TEXT_INTRO = FIRST_TEXT_OUTRO + 3000;
-    private static final int SECOND_TEXT_OUTRO = SECOND_TEXT_INTRO + 3000;
-    private static final int TEXT_FADE_TIME = 1000;
-    private static final String FIRST_TEXT = "space invaders";
-    private static final String SECOND_TEXT = "a game by: brett taylor, toby james and jack rimmington.";
-    private static final int TIME_TILL_SWAP_TO_NEXT_SCENE = SECOND_TEXT_OUTRO + 1000;
-
     private Text centeredText;
 
     /**
      * Creates the introduction world that handles showing the entry scenes of the game.
-     *
-     * @param screenWidth
-     * @param screenHeight
      */
-    public IntroductionWorld(double screenWidth, double screenHeight) {
-        super(screenWidth, screenHeight);
-        scene.setFill(new Color(0, 0, 0, 0.86f));
+    public IntroductionWorld() {
+        super();
+        Engine.getMainStage().getScene().setFill(Settings.COLORS.SCENE_GOOD_BACKGROUND);
 
         centeredText = new Text("");
         centeredText.setFill(Color.WHITE);
@@ -46,13 +33,33 @@ public class IntroductionWorld extends World {
         centeredText.setFont(Font.font(20.f));
         root.getChildren().add(centeredText);
 
-        doFadeText(FIRST_TEXT_INTRO, TEXT_FADE_TIME, STARTING_TEXT_OPACITY, ENDING_TEXT_OPACITY, FIRST_TEXT);
-        doFadeText(FIRST_TEXT_OUTRO, TEXT_FADE_TIME, ENDING_TEXT_OPACITY, STARTING_TEXT_OPACITY, FIRST_TEXT);
-        doFadeText(SECOND_TEXT_INTRO, TEXT_FADE_TIME, STARTING_TEXT_OPACITY, ENDING_TEXT_OPACITY, SECOND_TEXT);
-        doFadeText(SECOND_TEXT_OUTRO, TEXT_FADE_TIME, ENDING_TEXT_OPACITY, STARTING_TEXT_OPACITY, SECOND_TEXT);
+        doFadeText(Settings.INTRODUCTION_SCENE.FIRST_TEXT_INTRO,
+                Settings.INTRODUCTION_SCENE.TEXT_FADE_TIME,
+                Settings.INTRODUCTION_SCENE.STARTING_TEXT_OPACITY,
+                Settings.INTRODUCTION_SCENE.ENDING_TEXT_OPACITY,
+                Settings.INTRODUCTION_SCENE.FIRST_TEXT);
 
-        new Timeline(new KeyFrame(Duration.millis(TIME_TILL_SWAP_TO_NEXT_SCENE),
-                ae -> Engine.setWorld(new InstructionWorld(screenWidth, screenHeight)))).play();
+        doFadeText(Settings.INTRODUCTION_SCENE.FIRST_TEXT_OUTRO,
+                Settings.INTRODUCTION_SCENE.TEXT_FADE_TIME,
+                Settings.INTRODUCTION_SCENE.ENDING_TEXT_OPACITY,
+                Settings.INTRODUCTION_SCENE.STARTING_TEXT_OPACITY,
+                Settings.INTRODUCTION_SCENE.FIRST_TEXT);
+
+
+        doFadeText(Settings.INTRODUCTION_SCENE.SECOND_TEXT_INTRO,
+                Settings.INTRODUCTION_SCENE.TEXT_FADE_TIME,
+                Settings.INTRODUCTION_SCENE.STARTING_TEXT_OPACITY,
+                Settings.INTRODUCTION_SCENE.ENDING_TEXT_OPACITY,
+                Settings.INTRODUCTION_SCENE.SECOND_TEXT);
+
+        doFadeText(Settings.INTRODUCTION_SCENE.SECOND_TEXT_OUTRO,
+                Settings.INTRODUCTION_SCENE.TEXT_FADE_TIME,
+                Settings.INTRODUCTION_SCENE.ENDING_TEXT_OPACITY,
+                Settings.INTRODUCTION_SCENE.STARTING_TEXT_OPACITY,
+                Settings.INTRODUCTION_SCENE.SECOND_TEXT);
+
+        new Timeline(new KeyFrame(Duration.millis(Settings.INTRODUCTION_SCENE.TIME_TILL_SWAP_TO_NEXT_SCENE),
+                ae -> Engine.setWorld(new InstructionWorld()))).play();
     }
 
     @Override

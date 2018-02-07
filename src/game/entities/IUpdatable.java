@@ -2,13 +2,11 @@ package game.entities;
 
 /**
  * A interface to allow the object to be updated every frame.
- *
  * @author Brett Taylor
  */
 public interface IUpdatable {
     /**
      * Called every frame
-     *
      * @param deltaTime The delta time of the current frame.
      */
     void update(float deltaTime);
