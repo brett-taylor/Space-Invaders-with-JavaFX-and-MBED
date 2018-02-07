@@ -4,6 +4,7 @@ import game.Engine;
 import game.entities.Entity;
 import game.entities.IDrawable;
 import game.entities.IUpdatable;
+import game.utils.input.MBedKeyCode;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
@@ -87,6 +88,20 @@ public abstract class World implements IDrawable {
      * @param event The key that was released
      */
     public void onKeyReleased(KeyEvent event) {
+    }
+
+    /**
+     * Called when a key on the mbed is pressed
+     * @param mBedKeyCode The mbed key that was pressed
+     */
+    public void onKeyDown(MBedKeyCode mBedKeyCode) {
+    }
+
+    /**
+     * Called when a key on the mbed is released
+     * @param mBedKeyCode The mbedkey that was released
+     */
+    public void onKeyReleased(MBedKeyCode mBedKeyCode) {
     }
 
     /**

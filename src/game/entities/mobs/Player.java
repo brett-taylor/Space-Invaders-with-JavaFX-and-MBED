@@ -1,8 +1,8 @@
 package game.entities.mobs;
 
 import game.Engine;
-import game.entities.mobs.Mob;
-import game.utils.Input;
+import game.utils.Settings;
+import game.utils.input.Input;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -34,9 +34,11 @@ public class Player extends Mob {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        if (Input.isKeyDown(KeyCode.A))
-            setPosition(getPosition().add(new Point2D(-200 * Engine.getDeltaTime(), 0)));
-        else if (Input.isKeyDown(KeyCode.D))
-            setPosition(getPosition().add(new Point2D(200 * Engine.getDeltaTime(), 0)));
+        setPosition(new Point2D(1 * getPosition().getX(), Engine.getPlayAreaHeight() - getSize().getY() - 200));
+
+        /*if (Input.isKeyDown(Settings.PLAYERS.LEFT_KEYBOARD) || Input.isKeyDown(Settings.PLAYERS.LEFT_MBED))
+            setPosition(getPosition().add(new Point2D(-200 * Engine.getDeltaTime(), getPosition().getY())));
+        else if (Input.isKeyDown(Settings.PLAYERS.RIGHT_KEYBOARD) || Input.isKeyDown(Settings.PLAYERS.RIGHT_MBED))
+            setPosition(getPosition().add(new Point2D(200 * Engine.getDeltaTime(), getPosition().getY())));*/
     }
 }

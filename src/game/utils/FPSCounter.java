@@ -24,6 +24,6 @@ public class FPSCounter extends Entity {
     @Override
     public void render(GraphicsContext graphics, double screenWidth, double screenHeight) {
         super.render(graphics, screenWidth, screenHeight);
-        graphics.fillText(Float.toString(fps), 5, 30);
+        graphics.fillText(Float.toString(fps), Settings.GAME_SCENE.PADDING * 2, 30);
     }
 }

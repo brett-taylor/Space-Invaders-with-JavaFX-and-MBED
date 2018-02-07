@@ -1,6 +1,6 @@
 package game;
 
-import game.utils.Input;
+import game.utils.input.Input;
 import game.utils.Settings;
 import game.world.World;
 import game.world.impl.*;
@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Set;
 
 /**
  * Lowest level of the game. Handles input, updating objects and connection to mbed
@@ -37,17 +38,15 @@ public class Engine {
         isInitialised = true;
         mainStage = stage;
         mainStage.setTitle(Settings.GAME.GAME_NAME);
-
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        mainStage.setWidth((screenSize.width / 100) * 75);
-        mainStage.setHeight((screenSize.height / 100) * 75);
+        mainStage.setWidth(Settings.GAME.SCREEN_WIDTH);
+        mainStage.setHeight(Settings.GAME.SCREEN_HEIGHT);
+        mainStage.setResizable(false);
         mainStage.centerOnScreen();
-
         layoutContainer = new BorderPane();
         gamePane = new Pane();
         layoutContainer.setCenter(gamePane);
         mainStage.setScene(new Scene(layoutContainer));
-
         Input.setUpGlobalInputBindings();
 
         // If returned false mbed didnt start up correctly and needs to show MbedIssueWorld
@@ -122,8 +121,8 @@ public class Engine {
      */
     public static double getPlayAreaWidth() {
         return MBedEngine.shouldAttachEmulator() ?
-                getMainStage().getWidth() - Settings.MBED.MBED_EMULATOR_WIDTH :
-                getMainStage().getWidth();
+                getMainStage().getWidth() - Settings.MBED.MBED_EMULATOR_WIDTH - Settings.GAME.RIGHT_SIDE_PADDING :
+                getMainStage().getWidth() - Settings.GAME.RIGHT_SIDE_PADDING;
     }
 
     /**
@@ -131,7 +130,7 @@ public class Engine {
      * @return the play area height of the game.
      */
     public static double getPlayAreaHeight() {
-        return getMainStage().getHeight();
+        return getMainStage().getHeight() - Settings.GAME.TITLE_BAR_HEIGHT;
     }
 
     /**
