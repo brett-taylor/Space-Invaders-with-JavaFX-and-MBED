@@ -1,6 +1,5 @@
 package game.utils;
 
-import game.utils.input.MBedKeyCode;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
@@ -37,13 +36,47 @@ public class Settings {
     }
 
     /**
+     * Sprites
+     */
+    public static class SPRITES {
+        public static final String PLAYER_SPRITE_LOCATION = "resources/player.png";
+        public static final String ENEMY_SPRITE_LOCATION = "resources/enemy.png";
+    }
+
+    /**
      * Player Settings
      */
-    public static class PLAYERS {
+    public static class PLAYER {
         public static final KeyCode LEFT_KEYBOARD = KeyCode.A;
         public static final MBedKeyCode LEFT_MBED = MBedKeyCode.JOYSTICK_LEFT;
         public static final KeyCode RIGHT_KEYBOARD = KeyCode.D;
         public static final MBedKeyCode RIGHT_MBED = MBedKeyCode.JOYSTICK_RIGHT;
+        public static final KeyCode SHOOT_KEYBOARD = KeyCode.SPACE;
+        public static final MBedKeyCode SHOOT_MBED = MBedKeyCode.JOYSTICK_CENTER;
+        public static final double WIDTH = 40;
+        public static final double HEIGHT = 20;
+        public static final double MOVEMENT_SPEED = 200;
+    }
+
+    /**
+     * Enemy Settings
+     */
+    public static class ENEMY {
+        public static final float WIDTH = 25;
+        public static final float HEIGHT = 17;
+        //public static final float MOVEMENT_SPEED = 50.f;
+        public static final float MOVEMENT_SPEED = 50.f;
+    }
+
+    /**
+     * Missle Settings
+     */
+    public static class MISSLE {
+        public static final float WIDTH = 2.f;
+        public static final float HEIGHT = 20.f;
+        public static final float MOVEMENT_SPEED = 500.f;
+        public static final Color FRIENDLY_MISSLE = Color.GREENYELLOW;
+        public static final Color ENEMY_MISSLE = Color.DEEPPINK;
     }
 
     /**
@@ -69,5 +102,12 @@ public class Settings {
         public static final int PADDING = 10;
         public static final int RECTNAGLE_THICKNESS = 5;
         public static final int RECTNAGLE_LENGTH = 20;
+        public static final int AMOUNT_OF_ENEMIES_ACROSS_X_AXIS = 8;
+        public static final int AMOUNT_OF_ENEMIES_ACROSS_Y_AXIS = 5;
+        public static final int ENEMY_SPACING = 10;
+        public static final int ENEMY_STARTING_Y = 30 + PADDING;
+        public static final float ENEMY_LEFTRIGHT_MOVEMENT_RANGE = 300.f;
+        public static final float ENEMY_DOWN_MOVEMENT_RANGE = 150.f;
+        public static final float ENEMY_DROP_AMOUNT = 30.f;
     }
 }

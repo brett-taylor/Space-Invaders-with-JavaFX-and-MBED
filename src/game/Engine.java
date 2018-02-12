@@ -1,24 +1,21 @@
 package game;
 
-import game.utils.input.Input;
+import game.content.worlds.GameWorld;
+import game.content.worlds.MBedIssueWorld;
+import game.utils.Input;
+import game.utils.ResourceLoader;
 import game.utils.Settings;
 import game.world.World;
-import game.world.impl.*;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.util.Set;
 
 /**
  * Lowest level of the game. Handles input, updating objects and connection to mbed
  * @author Brett Taylor
  */
 public class Engine {
-    private static boolean isDebug = false;
     private static boolean isInitialised = false;
     private static long lastUpdate = 0;
     private static Stage mainStage = null;
@@ -38,7 +35,6 @@ public class Engine {
         isInitialised = true;
         mainStage = stage;
         mainStage.setTitle(Settings.GAME.GAME_NAME);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         mainStage.setWidth(Settings.GAME.SCREEN_WIDTH);
         mainStage.setHeight(Settings.GAME.SCREEN_HEIGHT);
         mainStage.setResizable(false);
@@ -47,7 +43,9 @@ public class Engine {
         gamePane = new Pane();
         layoutContainer.setCenter(gamePane);
         mainStage.setScene(new Scene(layoutContainer));
+
         Input.setUpGlobalInputBindings();
+        ResourceLoader.loadAllResources();
 
         // If returned false mbed didnt start up correctly and needs to show MbedIssueWorld
         if (!MBedEngine.startUp(layoutContainer)) {
@@ -100,22 +98,6 @@ public class Engine {
     }
 
     /**
-     * The current world.
-     * @return the current world.
-     */
-    public static World getCurrentWorld() {
-        return currentWorld;
-    }
-
-    /**
-     * Returns the last delta time calculated
-     * @return the last delta time calculated
-     */
-    public static float getDeltaTime() {
-        return deltaTime;
-    }
-
-    /**
      * Returns the play area width of the game. This takes into consideration the mbed emulator.
      * @return the play area width of the game.
      */
@@ -134,18 +116,10 @@ public class Engine {
     }
 
     /**
-     * Sets whether the game is in debug mode or not.
-     * @param debugStatus true or false for debug mode.
+     * The current world.
+     * @return the current world.
      */
-    public static void setDebug(boolean debugStatus) {
-        isDebug = debugStatus;
-    }
-
-    /**
-     * Returns whether the game is in debug or not.
-     * @return true if the game is in debug mode.
-     */
-    public static boolean isDebug() {
-        return isDebug;
+    public static World getCurrentWorld() {
+        return currentWorld;
     }
 }

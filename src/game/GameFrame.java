@@ -10,13 +10,6 @@ import javafx.stage.Stage;
  */
 public class GameFrame extends Application {
     public static void main(String[] args) {
-        for (String s : args) {
-            if (s.equalsIgnoreCase("debug")) {
-                Engine.setDebug(true);
-                break;
-            }
-        }
-
         launch(args);
     }
 

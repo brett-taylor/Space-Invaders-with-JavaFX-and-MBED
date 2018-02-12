@@ -1,10 +1,11 @@
 package game.world;
 
 import game.Engine;
-import game.entities.Entity;
-import game.entities.IDrawable;
-import game.entities.IUpdatable;
-import game.utils.input.MBedKeyCode;
+import game.utils.MBedKeyCode;
+import game.world.objects.GameObject;
+import game.world.objects.ICollidable;
+import game.world.objects.IDrawable;
+import game.world.objects.IUpdatable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
@@ -17,14 +18,14 @@ import java.util.Iterator;
  * A World is a Level.
  * @author Brett Taylor
  */
-public abstract class World implements IDrawable {
+public abstract class World {
     protected Pane root;
     protected Canvas canvas;
     protected double screenWidth;
     protected double screenHeight;
-
     private ArrayList<IUpdatable> updatables;
     private ArrayList<IDrawable> drawables;
+    private ArrayList<ICollidable> collidables;
 
     /**
      * Creates a World
@@ -41,6 +42,7 @@ public abstract class World implements IDrawable {
 
         updatables = new ArrayList<>();
         drawables = new ArrayList<>();
+        collidables = new ArrayList<>();
     }
 
     /**
@@ -57,11 +59,21 @@ public abstract class World implements IDrawable {
     public void update(float deltaTime) {
         screenWidth = Engine.getPlayAreaWidth();
         screenHeight = Engine.getPlayAreaHeight();
-        for (Iterator<IUpdatable> iterator = updatables.iterator(); iterator.hasNext();)
-            iterator.next().update(deltaTime);
+
+        for (IUpdatable updatable : new ArrayList<>(updatables)) {
+            if (updatable.isBeingDestroyed()) {
+                updatable.onEnd();
+                updatables.remove(updatable);
+            }
+            else {
+                if (!updatable.hasOnStartBeenCalled())
+                    updatable.onStart();
+
+                updatable.update(deltaTime);
+            }
+        }
     }
 
-    @Override
     public void render(GraphicsContext graphics, double screenWidth, double screenHeight) {
     }
 
@@ -72,8 +84,14 @@ public abstract class World implements IDrawable {
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
         graphicsContext.clearRect(0, 0, screenWidth, screenHeight);
         render(graphicsContext, screenWidth, screenHeight);
-        for (Iterator<IDrawable> iterator = drawables.iterator(); iterator.hasNext();)
-            iterator.next().render(graphicsContext, screenWidth, screenHeight);
+        for (IDrawable drawable : new ArrayList<>(drawables)) {
+            if (drawable.isBeingDestroyed()) {
+                drawables.remove(drawable);
+            }
+            else {
+                drawable.render(graphicsContext, screenWidth, screenHeight);
+            }
+        }
     }
 
     /**
@@ -113,28 +131,35 @@ public abstract class World implements IDrawable {
     }
 
     /**
-     * Adds a updatable object to the world.
-     * @param updatable the object to be added to the world
+     * Adds a GameObject to the world.
+     * @param go The GameObject that will be added to the world.
      */
-    public void addUpdatable(IUpdatable updatable) {
-        updatable.onStart();
-        updatables.add(updatable);
+    public void addGameObject(GameObject go) {
+        updatables.add(go);
+        drawables.add(go);
     }
 
     /**
-     * Adds a drawable object to the world.
-     * @param drawable the object to be drawn to the world
+     * Adds a collidable to the world.
+     * @param collidable the collidable to be added to the world.
      */
-    public void addDrawable(IDrawable drawable) {
-        drawables.add(drawable);
+    public void addCollidable(ICollidable collidable) {
+        collidables.add(collidable);
     }
 
     /**
-     * Adds a entity to the world.
-     * @param entity The entity that will be added to the world.
+     * Removes a ICollidable that is currently in the world. (No checks for this)
+     * @param collidable the ICollidable to remove.
      */
-    public void addEntity(Entity entity) {
-        addUpdatable(entity);
-        addDrawable(entity);
+    public void removeCollidable(ICollidable collidable) {
+        collidables.remove(collidable);
+    }
+
+    /**
+     * Gets all the collidables in the world.
+     * @return a collection containing all the collidables in the current wolr.d
+     */
+    public ArrayList<ICollidable> getCollidables() {
+        return collidables;
     }
 }

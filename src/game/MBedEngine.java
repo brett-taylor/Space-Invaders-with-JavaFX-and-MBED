@@ -1,7 +1,7 @@
 package game;
 
-import game.utils.input.Input;
-import game.utils.input.MBedKeyCode;
+import game.utils.Input;
+import game.utils.MBedKeyCode;
 import game.utils.Settings;
 import javafx.embed.swing.SwingNode;
 import javafx.scene.layout.BorderPane;
@@ -73,7 +73,7 @@ public class MBedEngine {
         mbed.getJoystickRight().addListener(isPressed -> decideKeyPress(MBedKeyCode.JOYSTICK_RIGHT, isPressed));
         mbed.getJoystickDown().addListener(isPressed -> decideKeyPress(MBedKeyCode.JOYSTICK_DOWN, isPressed));
         mbed.getJoystickLeft().addListener(isPressed -> decideKeyPress(MBedKeyCode.JOYSTICK_LEFT, isPressed));
-        mbed.getJoystickDown().addListener(isPressed -> decideKeyPress(MBedKeyCode.JOYSTICK_CENTER, isPressed));
+        mbed.getJoystickFire().addListener(isPressed -> decideKeyPress(MBedKeyCode.JOYSTICK_CENTER, isPressed));
         mbed.getSwitch2().addListener(isPressed -> decideKeyPress(MBedKeyCode.BUTTON_RIGHT, isPressed));
         mbed.getSwitch3().addListener(isPressed -> decideKeyPress(MBedKeyCode.BUTTON_LEFT, isPressed));
     }
