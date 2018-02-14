@@ -1,6 +1,7 @@
 package game.content.mobs;
 
 import game.Engine;
+import game.content.worlds.GameWorld;
 import game.utils.Input;
 import game.utils.MBedKeyCode;
 import game.utils.ResourceLoader;
@@ -22,6 +23,7 @@ public class Player extends Mob {
         setImage(ResourceLoader.PLAYER_SPRITE);
         setSize(new Point2D(Settings.PLAYER.WIDTH, Settings.PLAYER.HEIGHT));
         setMissleSpawnOffset(new Point2D(getSize().getX() / 2, 0));
+        setShootingRefractoryPeriod(Settings.PLAYER.SHOOTING_REFRACTORY_TIME);
     }
 
     @Override
@@ -42,13 +44,21 @@ public class Player extends Mob {
     }
 
     @Override
-    protected boolean shoot() {
+    public boolean shoot() {
         if (!super.shoot())
             return false;
 
-        Missle missle = new Missle(VerticalDirection.UP, Settings.MISSLE.FRIENDLY_MISSLE);
+        Missle missle = new Missle(VerticalDirection.UP, Settings.MISSLE.FRIENDLY_MISSLE, Settings.MISSLE.FRIENDLY_MOVEMENT_SPEED);
         missle.setPosition(getMissleSpawnAbosluteLocation());
         Engine.getCurrentWorld().addGameObject(missle);
         return true;
+    }
+
+    @Override
+    public void setHealth(int newHealth) {
+        super.setHealth(newHealth);
+
+        if (newHealth == 0)
+            Engine.setWorld(new GameWorld());
     }
 }

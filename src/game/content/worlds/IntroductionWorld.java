@@ -18,6 +18,9 @@ import javafx.util.Duration;
  * @author Brett Taylor
  */
 public class IntroductionWorld extends World {
+    /**
+     * The text that appears in the middle of the screen.
+     */
     private Text centeredText;
 
     /**

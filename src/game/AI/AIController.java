@@ -4,7 +4,10 @@ import game.Engine;
 import game.MBedEngine;
 import game.content.events.enemy.OnAllEnemiesDestroyed;
 import game.content.events.enemy.OnEnemyGroupDestroyed;
+import game.content.events.mob.OnMobHealthChanged;
 import game.content.mobs.Enemy;
+import game.content.mobs.Mob;
+import game.content.worlds.WinWorld;
 import game.utils.Settings;
 import game.world.World;
 
@@ -17,16 +20,65 @@ import java.util.ArrayList;
  * Handles controlling the ai on the world scene.
  * @author Brett Taylor
  */
-public class AIController implements OnEnemyGroupDestroyed, OnAllEnemiesDestroyed {
+public class AIController implements OnEnemyGroupDestroyed, OnAllEnemiesDestroyed, OnMobHealthChanged {
+    /**
+     * The world the AIController belongs to
+     */
     private World world = null;
+
+    /**
+     * The enemy rows.
+     */
     private EnemyGroupRow[] enemyRows = null;
+
+    /**
+     * The enemy columns
+     */
     private EnemyGroupColumn[] enemyColumns = null;
-    private EnemyGroup leftMostGroup = null, rightMostGroup = null, bottomMostGroup = null;
+
+    /**
+     * The current left most enemy group.
+     */
+    private EnemyGroup leftMostGroup = null;
+
+    /**
+     * The current right most enemy group.
+     */
+    private EnemyGroup rightMostGroup = null;
+
+    /**
+     * The current bottom most enemy group.
+     */
+    private EnemyGroup bottomMostGroup = null;
+
+    /**
+     * The current horizontal direction that the enemies are moving
+     */
     private HorizontalDirection movingHorizontal = HorizontalDirection.LEFT;
-    private float down_movement_amount_total = Settings.GAME_SCENE.ENEMY_DOWN_MOVEMENT_RANGE;
+
+    /**
+     * The current distance the enemies have left to travel downwards to reach the next row.
+     */
     private float down_movement_amount_to_travel_per_row = 0.f;
+
+    /**
+     * Stores whether the enemies are on the last row or not.
+     */
     private boolean lastRow = false;
+
+    /**
+     * Stores whether the enemies should be moving or not.
+     */
     private boolean shouldEnemiesBeMoving = true;
+
+    /**
+     * Stores the extra speed that is created from there being less enemies.
+     */
+    private float movementMultiplier = 0.f;
+
+    /**
+     * The collection of objects listening to the OnALlEnemiesDestroyed event.
+     */
     private ArrayList<OnAllEnemiesDestroyed> onAllEnemiesDestroyedEvent;
 
     /**
@@ -77,6 +129,7 @@ public class AIController implements OnEnemyGroupDestroyed, OnAllEnemiesDestroye
             world.addGameObject(enemy);
             enemyColumns[columnNo].addEnemy(enemy);
             enemyRows[rowNo].addEnemy(enemy);
+            enemy.listenToOnMobHealthChanged(this);
 
             columnNo++;
             if (columnNo == (Settings.GAME_SCENE.AMOUNT_OF_ENEMIES_ACROSS_X_AXIS)) {
@@ -131,22 +184,21 @@ public class AIController implements OnEnemyGroupDestroyed, OnAllEnemiesDestroye
         if (!shouldEnemiesBeMoving)
             return;
 
-        float movementLeftRight = Settings.ENEMY.MOVEMENT_SPEED * deltaTime;
+        float movementLeftRight = (Settings.ENEMY.MOVEMENT_SPEED * deltaTime) + (movementMultiplier * deltaTime);
         float movementDown = 0.f;
         if (movingHorizontal == HorizontalDirection.LEFT)
             movementLeftRight = -movementLeftRight;
 
         if (down_movement_amount_to_travel_per_row >= 0.f) {
             movementLeftRight = 0.f;
-            movementDown = (Settings.ENEMY.MOVEMENT_SPEED * deltaTime);
+            movementDown = (Settings.ENEMY.MOVEMENT_SPEED * deltaTime) + (movementMultiplier * deltaTime);
             down_movement_amount_to_travel_per_row -= Math.abs(movementDown);
         } else if ((leftMostGroup.getPosition().getX() - movementLeftRight <= Settings.GAME_SCENE.PADDING && movingHorizontal == HorizontalDirection.LEFT)
                 || (rightMostGroup.getPosition().getX() + movementLeftRight >= (Engine.getPlayAreaWidth() - (Settings.ENEMY.WIDTH * 4) - Settings.GAME_SCENE.PADDING) && movingHorizontal == HorizontalDirection.RIGHT)) {
             movementLeftRight = 0;
             movingHorizontal = movingHorizontal == HorizontalDirection.RIGHT ? HorizontalDirection.LEFT : HorizontalDirection.RIGHT;
             down_movement_amount_to_travel_per_row = Settings.GAME_SCENE.ENEMY_DROP_AMOUNT;
-            down_movement_amount_total -= Math.abs(down_movement_amount_to_travel_per_row);
-            if (down_movement_amount_total <= 0.f) {
+            if (bottomMostGroup.getPosition().getY() >= Settings.GAME_SCENE.ENEMY_WIN_HEIGHT) {
                 if (lastRow) {
                     shouldEnemiesBeMoving = false;
                 } else {
@@ -156,6 +208,11 @@ public class AIController implements OnEnemyGroupDestroyed, OnAllEnemiesDestroye
         }
 
         addOffsetToGroups(new Point2D(movementLeftRight, movementDown));
+
+        for (EnemyGroupColumn group : enemyColumns) {
+            if (group != null)
+                group.updateShooting(deltaTime);
+        }
     }
 
     /**
@@ -257,5 +314,13 @@ public class AIController implements OnEnemyGroupDestroyed, OnAllEnemiesDestroye
 
     @Override
     public void onAllEnemiesDestroyed() {
+        Engine.setWorld(new WinWorld());
+    }
+
+    @Override
+    public void onMobHealthChanged(Mob mob, int oldHealth, int newHealth) {
+        if (newHealth <= 0) {
+            movementMultiplier += Settings.GAME_SCENE.ENEMY_SPEED_BOOST_PER_DEATH;
+        }
     }
 }

@@ -22,9 +22,10 @@
  * e-mail: scream3r.org@gmail.com
  * web-site: http://scream3r.org | http://code.google.com/p/java-simple-serial-connector/
  */
-package mbed.jssc;
+package jssc;
 
 /**
+ *
  * @author scream3r
  */
 public class SerialPortException extends Exception {
@@ -64,7 +65,7 @@ public class SerialPortException extends Exception {
     private String methodName;
     private String exceptionType;
 
-    public SerialPortException(String portName, String methodName, String exceptionType) {
+    public SerialPortException(String portName, String methodName, String exceptionType){
         super("Port name - " + portName + "; Method name - " + methodName + "; Exception type - " + exceptionType + ".");
         this.portName = portName;
         this.methodName = methodName;
@@ -74,21 +75,21 @@ public class SerialPortException extends Exception {
     /**
      * Getting port name during operation with which the exception was called
      */
-    public String getPortName() {
+    public String getPortName(){
         return portName;
     }
 
     /**
      * Getting method name during execution of which the exception was called
      */
-    public String getMethodName() {
+    public String getMethodName(){
         return methodName;
     }
 
     /**
      * Getting exception type
      */
-    public String getExceptionType() {
+    public String getExceptionType(){
         return exceptionType;
     }
 }

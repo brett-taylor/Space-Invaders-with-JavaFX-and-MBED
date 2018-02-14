@@ -12,10 +12,29 @@ import java.util.ArrayList;
  * They are also have health and also have a callBack every time they take damage.
  */
 public abstract class Mob extends Entity {
+    /**
+     * The current cooldown of shooting for the Mob.
+     */
     private float shootingTimer = 0.f;
-    private float shootingRefractoryPeriod  = 2.f;
+
+    /**
+     * The time that each Mob must wait after shooting to be able to shoot again.
+     */
+    private float shootingRefractoryPeriod  = 1.f;
+
+    /**
+     * The offset that the missle will spawn at.
+     */
     private Point2D missleSpawnOffset = Point2D.ZERO;
+
+    /**
+     * The current health of the mob.
+     */
     private int currentHealth = 0;
+
+    /**
+     * The collection of objects listening to the OnMobHealthChanged event.
+     */
     private ArrayList<OnMobHealthChanged> onMobHealthChangedEvent;
 
     /**
@@ -39,13 +58,29 @@ public abstract class Mob extends Entity {
      * Shoots a missle.
      * @return true if it successfully shot (it was not on cooldown).
      */
-    protected boolean shoot() {
+    public boolean shoot() {
         if (shootingTimer > 0.f) {
             return false;
         }
 
         shootingTimer = shootingRefractoryPeriod;
         return true;
+    }
+
+    /**
+     * Sets the time after a enemy has shot till they can shoot again.
+     * @param refractoryPeriod the cooldown between each time a mob can shoot.
+     */
+    public void setShootingRefractoryPeriod(float refractoryPeriod) {
+        shootingRefractoryPeriod = refractoryPeriod;
+    }
+
+    /**
+     * Sets a cooldown to shooting one time.
+     * @param cooldown the one off cooldown for shooting.
+     */
+    public void setOneOffShootCooldown(float cooldown) {
+        shootingTimer = cooldown;
     }
 
     /**

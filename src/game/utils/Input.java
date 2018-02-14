@@ -12,9 +12,24 @@ import java.util.HashSet;
  * @author Brett Taylor
  */
 public class Input {
+    /**
+     * A collection of current Keys that are down.
+     */
     private static HashSet<KeyCode> keysDown = new HashSet<>();
+
+    /**
+     * A collection of current Keys that are down. This is cleared every frame.
+     */
     private static HashSet<KeyCode> keysJustPressed = new HashSet<>();
+
+    /**
+     * A collection of current MBed keys that are down.
+     */
     private static HashSet<MBedKeyCode> mbedKeysDown = new HashSet<>();
+
+    /**
+     * A collection of current Mbed keys that are down. This is cleared every frame.
+     */
     private static HashSet<MBedKeyCode> mbedKeysJustPressed = new HashSet<>();
 
     /**

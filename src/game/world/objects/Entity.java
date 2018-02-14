@@ -16,9 +16,24 @@ import java.awt.*;
  * @author Brett Taylor
  */
 public class Entity extends GameObject implements ICollidable {
+    /**
+     * The position of the enemy
+     */
     private Point2D position;
+
+    /**
+     * The size of the enemy
+     */
     private Point2D size;
+
+    /**
+     * The color of the square that is drawn if the entity has no color
+     */
     private Color renderColor = Color.PINK;
+
+    /**
+     * The image that the entity will draw.
+     */
     private Image image = null;
 
     /**

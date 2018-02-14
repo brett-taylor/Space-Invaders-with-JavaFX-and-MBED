@@ -1,6 +1,7 @@
 package game;
 
 import game.content.worlds.GameWorld;
+import game.content.worlds.IntroductionWorld;
 import game.content.worlds.MBedIssueWorld;
 import game.utils.Input;
 import game.utils.ResourceLoader;
@@ -16,12 +17,39 @@ import javafx.stage.Stage;
  * @author Brett Taylor
  */
 public class Engine {
+    /**
+     * Whether this class has been initialised yet.
+     */
     private static boolean isInitialised = false;
+
+    /**
+     * The update time of the previous frame.
+     */
     private static long lastUpdate = 0;
+
+    /**
+     * The stage created by the GameFrame.
+     */
     private static Stage mainStage = null;
+
+    /**
+     * The current world
+     */
     private static World currentWorld = null;
+
+    /**
+     * This frame's current delta time
+     */
     private static float deltaTime = 0.f;
+
+    /**
+     * The base layout for all panels to be added to
+     */
     private static BorderPane layoutContainer = null;
+
+    /**
+     * The panel that will show the game.
+     */
     private static Pane gamePane = null;
 
     /**

@@ -14,18 +14,27 @@ import javafx.scene.paint.Color;
  * @author Brett Taylor
  */
 public class Missle extends Entity {
+    /**
+     * The vertical direction that the missle is heading.
+     */
     private VerticalDirection movementDirection = VerticalDirection.DOWN;
+
+    /**
+     * The missle movement speed
+     */
+    private float movementSpeed = 200.f;
 
     /**
      * Creates a missle class
      @param direction States what vertical direction the missle should be going.
      */
-    public Missle(VerticalDirection direction, Color missleColor) {
+    public Missle(VerticalDirection direction, Color missleColor, float movementSpeed) {
         super();
         movementDirection = direction;
         setRenderColor(missleColor);
         setSize(new Point2D(Settings.MISSLE.WIDTH, Settings.MISSLE.HEIGHT));
         setPosition(new Point2D(100, 350));
+        this.movementSpeed = movementSpeed;
     }
 
     @Override
@@ -47,7 +56,7 @@ public class Missle extends Entity {
             }
         }
 
-        float movementAmount = Settings.MISSLE.MOVEMENT_SPEED * deltaTime;
+        float movementAmount = movementSpeed * deltaTime;
         if (movementDirection == VerticalDirection.UP) {
             movementAmount = -movementAmount;
         }

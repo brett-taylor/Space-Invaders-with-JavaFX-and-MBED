@@ -15,10 +15,29 @@ import java.util.ArrayList;
  * @author Brett Taylor
  */
 public abstract class EnemyGroup implements OnMobHealthChanged {
+    /**
+     * The collection of enemies in this group
+     */
     protected Enemy[] enemies;
+
+    /**
+     * The max amount of enemies that this group is allowed.
+     */
     protected final int maxEnemies;
+
+    /**
+     * The current amount of enemies alive in the group
+     */
     private int enemiesAlive;
+
+    /**
+     * The current overall position of the group. Each enemy still has their own position they use.
+     */
     protected Point2D position;
+
+    /**
+     * The collection of objects listening to the OnEnemyGroupDestroyed event.
+     */
     private ArrayList<OnEnemyGroupDestroyed> onEnemyGroupDestroyedEvent;
 
     /**

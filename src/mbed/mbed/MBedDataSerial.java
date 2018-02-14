@@ -1,9 +1,9 @@
 package mbed.mbed;
 
-import mbed.jssc.SerialPort;
-import mbed.jssc.SerialPortEvent;
-import mbed.jssc.SerialPortEventListener;
-import mbed.jssc.SerialPortException;
+import jssc.SerialPort;
+import jssc.SerialPortEvent;
+import jssc.SerialPortEventListener;
+import jssc.SerialPortException;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;

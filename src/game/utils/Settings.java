@@ -56,6 +56,7 @@ public class Settings {
         public static final double WIDTH = 40;
         public static final double HEIGHT = 20;
         public static final double MOVEMENT_SPEED = 200;
+        public static final float SHOOTING_REFRACTORY_TIME = .5f;
     }
 
     /**
@@ -64,8 +65,10 @@ public class Settings {
     public static class ENEMY {
         public static final float WIDTH = 25;
         public static final float HEIGHT = 17;
-        //public static final float MOVEMENT_SPEED = 50.f;
         public static final float MOVEMENT_SPEED = 50.f;
+        public static final float MAX_SHOOT_RANDOM_TIME = 5.f;
+        public static final float MIN_SHOOT_RANDOM_TIME = 0.f;
+        public static final float STARTING_SHOOT_COOLDOWN = 3.f;
     }
 
     /**
@@ -74,9 +77,19 @@ public class Settings {
     public static class MISSLE {
         public static final float WIDTH = 2.f;
         public static final float HEIGHT = 20.f;
-        public static final float MOVEMENT_SPEED = 500.f;
+        public static final float FRIENDLY_MOVEMENT_SPEED = 600.f;
+        public static final float ENEMY_MOVEMENT_SPEED = 400.f;
         public static final Color FRIENDLY_MISSLE = Color.GREENYELLOW;
         public static final Color ENEMY_MISSLE = Color.DEEPPINK;
+    }
+
+    /**
+     * Wall Settings
+     */
+    public static class WALL {
+        public static final float WIDTH = 50.f;
+        public static final float HEIGHT = 5.f;
+        public static final Color COLOR = Color.GREENYELLOW;
     }
 
     /**
@@ -102,12 +115,12 @@ public class Settings {
         public static final int PADDING = 10;
         public static final int RECTNAGLE_THICKNESS = 5;
         public static final int RECTNAGLE_LENGTH = 20;
-        public static final int AMOUNT_OF_ENEMIES_ACROSS_X_AXIS = 8;
-        public static final int AMOUNT_OF_ENEMIES_ACROSS_Y_AXIS = 5;
+        public static final int AMOUNT_OF_ENEMIES_ACROSS_X_AXIS = 7;
+        public static final int AMOUNT_OF_ENEMIES_ACROSS_Y_AXIS = 4;
         public static final int ENEMY_SPACING = 10;
         public static final int ENEMY_STARTING_Y = 30 + PADDING;
-        public static final float ENEMY_LEFTRIGHT_MOVEMENT_RANGE = 300.f;
-        public static final float ENEMY_DOWN_MOVEMENT_RANGE = 150.f;
-        public static final float ENEMY_DROP_AMOUNT = 30.f;
+        public static final float ENEMY_DROP_AMOUNT = 10.f;
+        public static final float ENEMY_SPEED_BOOST_PER_DEATH = 6.f;
+        public static final float ENEMY_WIN_HEIGHT = 275.f;
     }
 }

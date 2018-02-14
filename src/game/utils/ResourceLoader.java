@@ -7,7 +7,14 @@ import javafx.scene.image.Image;
  * @author Brett Taylor
  */
 public class ResourceLoader {
+    /**
+     * The Player Sprite
+     */
     public static Image PLAYER_SPRITE = null;
+
+    /**
+     * The enemy sprite.
+     */
     public static Image ENEMY_SPRITE = null;
 
     /**

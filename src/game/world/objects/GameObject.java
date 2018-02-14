@@ -7,7 +7,14 @@ import javafx.scene.canvas.GraphicsContext;
  * It will be updated every frame and can draw to the canvas every frame.
  */
 public abstract class GameObject implements IUpdatable, IDrawable {
+    /**
+     * Whether or not the GameObject has requested to be destroyed.
+     */
     private boolean isBeingDestroyed = false;
+
+    /**
+     * Whether the GameObject has it OnStart method from IUpdatable called yet.
+     */
     private boolean onStartCalled = false;
 
     /**

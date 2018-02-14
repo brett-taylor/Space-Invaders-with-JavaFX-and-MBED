@@ -17,6 +17,9 @@ import javafx.util.Duration;
  * @author Brett Taylor
  */
 public class MBedIssueWorld extends World {
+    /**
+     * The text that appears in the middle of the screen.
+     */
     private Text centeredText;
 
     /**

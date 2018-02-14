@@ -16,7 +16,14 @@ import javafx.util.Duration;
  * @author Brett Taylor
  */
 public class InstructionWorld extends World {
+    /**
+     * The text that appears in the middle of the screen
+     */
     private Text centeredText;
+
+    /**
+     * The amount of time in miliseconds before the game switches to the next scene.
+     */
     private static final int TIME_TILL_GAME_WORLD = 2000;
 
     /**

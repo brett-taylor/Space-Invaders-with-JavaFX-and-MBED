@@ -19,12 +19,39 @@ import java.util.Iterator;
  * @author Brett Taylor
  */
 public abstract class World {
+    /**
+     * The main root of everything in the world.
+     */
     protected Pane root;
+
+    /**
+     * The world's canvas to allow drawing.
+     */
     protected Canvas canvas;
+
+    /**
+     * The current screen width
+     */
     protected double screenWidth;
+
+    /**
+     * The current screen height
+     */
     protected double screenHeight;
+
+    /**
+     * A collection of updatables that the world is handling.
+     */
     private ArrayList<IUpdatable> updatables;
+
+    /**
+     * A collection of drawables that the world is handling.
+     */
     private ArrayList<IDrawable> drawables;
+
+    /**
+     * A collection of collidables that the world is handling.
+     */
     private ArrayList<ICollidable> collidables;
 
     /**

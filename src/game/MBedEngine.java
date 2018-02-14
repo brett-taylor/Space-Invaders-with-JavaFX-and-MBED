@@ -15,8 +15,19 @@ import mbed.mbed.MBedUtils;
  * @author Brett Taylor
  */
 public class MBedEngine {
+    /**
+     * The MBed. Can be a real MBed or the emulated MBed.
+     */
     private static MBed mbed = null;
+
+    /**
+     * The panel that will contain the MBed emulator if we are using an emulated MBed.
+     */
     private static Pane emulatorPane = null;
+
+    /**
+     * Whether we are going to be displaying the MBed emulator in the game frame.
+     */
     private static boolean isUsingEmulatorInGameFrame = false;
 
     public static boolean startUp(BorderPane layoutContainer) {
@@ -25,8 +36,11 @@ public class MBedEngine {
             return false;
         }
 
-        createEmulatorInGameFrame(layoutContainer);
+        if (mbed instanceof MBedDummy) {
+            createEmulatorInGameFrame(layoutContainer);
+        }
         setupInputBindings();
+        mbed.getLCD().print(0, 0, "Hello World.");
         return true;
     }
 
