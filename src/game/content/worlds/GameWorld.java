@@ -1,30 +1,39 @@
 package game.content.worlds;
 
-import game.AI.AIController;
+import game.ai.AIController;
 import game.Engine;
-import game.content.FPSCounter;
+import game.content.misc.FPSCounter;
 import game.content.mobs.Enemy;
-import game.content.mobs.Missle;
 import game.content.mobs.Player;
 import game.content.mobs.Wall;
+import game.content.text.BurstText;
+import game.content.text.PlayerPoints;
+import game.content.text.TextUtils;
+import game.events.enemy.OnEnemyDestroyed;
+import game.utils.Input;
 import game.utils.Settings;
 import game.world.World;
 import javafx.geometry.Point2D;
-import javafx.geometry.VerticalDirection;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
-import java.util.Set;
+import java.util.Random;
 
 /**
  * The game scene.
  * @author Brett Taylor
  */
-public class GameWorld extends World {
+public class GameWorld extends World implements OnEnemyDestroyed {
     /**
-     * The AI Controller for the game.
+     * The ai Controller for the game.
      */
     private AIController ai;
+
+    /**
+     * The player
+     */
+    private Player player;
 
     /**
      * Creates a World
@@ -34,7 +43,7 @@ public class GameWorld extends World {
         Engine.getMainStage().getScene().setFill(Settings.COLORS.SCENE_GOOD_BACKGROUND);
         addGameObject(new FPSCounter());
 
-        Player player = new Player();
+        player = new Player();
         addGameObject(player);
         player.setPosition(new Point2D(
                 screenWidth / 2 - (Settings.GAME_SCENE.PADDING * 2),
@@ -42,6 +51,9 @@ public class GameWorld extends World {
         ));
 
         ai = new AIController(this);
+        PlayerPoints playerPoints = new PlayerPoints(this);
+        player.listenToOnPlayerPointsIncreased(playerPoints);
+        player.listenToOnPlayerPointsDecreased(playerPoints);
 
         Point2D leftMost = new Point2D(Settings.GAME_SCENE.PADDING + 20,
                 player.getPosition().getY() - 20 - Settings.WALL.HEIGHT);
@@ -96,5 +108,10 @@ public class GameWorld extends World {
     public void update(float deltaTime) {
         super.update(deltaTime);
         ai.update(deltaTime);
+    }
+
+    @Override
+    public void onEnemyDestroyed(Enemy enemy) {
+        player.addPoints(Settings.POINTS.POINTS_ON_ENEMY_DEATH);
     }
 }

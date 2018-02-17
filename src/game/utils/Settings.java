@@ -17,6 +17,7 @@ public class Settings {
         public static final double SCREEN_HEIGHT = 500;
         public static final double TITLE_BAR_HEIGHT = 40;
         public static final double RIGHT_SIDE_PADDING = 17;
+        public static final String CSS_LOCATION = "resources/css/style.css";
     }
 
     /**
@@ -39,8 +40,8 @@ public class Settings {
      * Sprites
      */
     public static class SPRITES {
-        public static final String PLAYER_SPRITE_LOCATION = "resources/player.png";
-        public static final String ENEMY_SPRITE_LOCATION = "resources/enemy.png";
+        public static final String PLAYER_SPRITE_LOCATION = "resources/images/player.png";
+        public static final String ENEMY_SPRITE_LOCATION = "resources/images/enemy.png";
     }
 
     /**
@@ -52,7 +53,7 @@ public class Settings {
         public static final KeyCode RIGHT_KEYBOARD = KeyCode.D;
         public static final MBedKeyCode RIGHT_MBED = MBedKeyCode.JOYSTICK_RIGHT;
         public static final KeyCode SHOOT_KEYBOARD = KeyCode.SPACE;
-        public static final MBedKeyCode SHOOT_MBED = MBedKeyCode.JOYSTICK_CENTER;
+        public static final MBedKeyCode SHOOT_MBED = MBedKeyCode.BUTTON_RIGHT;
         public static final double WIDTH = 40;
         public static final double HEIGHT = 20;
         public static final double MOVEMENT_SPEED = 200;
@@ -122,5 +123,13 @@ public class Settings {
         public static final float ENEMY_DROP_AMOUNT = 10.f;
         public static final float ENEMY_SPEED_BOOST_PER_DEATH = 6.f;
         public static final float ENEMY_WIN_HEIGHT = 275.f;
+        public static final float MULTIPLE_ENEMY_KILL_SUCCESSION_TIME = 0.5f;
+    }
+
+    /**
+     *
+     */
+    public class POINTS {
+        public static final int POINTS_ON_ENEMY_DEATH = 200;
     }
 }

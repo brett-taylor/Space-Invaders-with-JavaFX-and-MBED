@@ -1,0 +1,14 @@
+.burst-text {
+  -fx-font-family: "Adventure";
+  -fx-font-size: 26px;
+  -fx-opacity: 0.8;
+  -fx-fill: #00fff6;
+  -fx-stroke: #00847f;
+  -fx-stroke-width: 2px;
+}
+
+.player-points {
+  -fx-font-family: "Adventure";
+  -fx-font-size: 26px;
+  -fx-fill: #ffffff;
+}

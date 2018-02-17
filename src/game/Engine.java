@@ -1,7 +1,6 @@
 package game;
 
 import game.content.worlds.GameWorld;
-import game.content.worlds.IntroductionWorld;
 import game.content.worlds.MBedIssueWorld;
 import game.utils.Input;
 import game.utils.ResourceLoader;
@@ -70,7 +69,8 @@ public class Engine {
         layoutContainer = new BorderPane();
         gamePane = new Pane();
         layoutContainer.setCenter(gamePane);
-        mainStage.setScene(new Scene(layoutContainer));
+        Scene scene = new Scene(layoutContainer);
+        mainStage.setScene(scene);
 
         Input.setUpGlobalInputBindings();
         ResourceLoader.loadAllResources();
@@ -82,6 +82,7 @@ public class Engine {
             return;
         }
 
+        scene.getStylesheets().add(ClassLoader.getSystemClassLoader().getResource(Settings.GAME.CSS_LOCATION).toExternalForm());
         setWorld(new GameWorld());
         mainStage.show();
     }
@@ -149,5 +150,13 @@ public class Engine {
      */
     public static World getCurrentWorld() {
         return currentWorld;
+    }
+
+    /**
+     * Gets the delta time of the last frame
+     * @return the delta time of the last frame.
+     */
+    public static float getDeltaTime() {
+        return deltaTime;
     }
 }

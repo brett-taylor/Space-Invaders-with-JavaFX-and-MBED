@@ -1,6 +1,7 @@
 package game.utils;
 
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 
 /**
  * Handles loading all resources that the game will need for later on.
@@ -23,6 +24,8 @@ public class ResourceLoader {
     public static void loadAllResources() {
         PLAYER_SPRITE = loadImage(Settings.SPRITES.PLAYER_SPRITE_LOCATION);
         ENEMY_SPRITE = loadImage(Settings.SPRITES.ENEMY_SPRITE_LOCATION);
+
+        Font.loadFont(ClassLoader.getSystemClassLoader().getResourceAsStream("resources/fonts/Adventure.otf"), 14);
     }
 
     /**

@@ -1,6 +1,6 @@
 package game.content.mobs;
 
-import game.content.events.mob.OnMobHealthChanged;
+import game.events.mob.OnMobHealthChanged;
 import game.world.objects.Entity;
 import game.world.objects.ICollidable;
 import javafx.geometry.Point2D;
